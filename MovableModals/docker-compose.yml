@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  deeplure-movable-modals:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: deeplure-research-task
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    labels:
+      - "com.deeplure.project=research-task"
+      - "com.deeplure.component=movable-modals"
+      - "com.deeplure.version=1.0.0"
+
+networks:
+  default:
+    name: deeplure-network
